@@ -1,0 +1,81 @@
+package kr.ac.kku.cs.wp.nangkongmu.test;
+
+import kr.ac.kku.cs.wp.nangkongmu.user.entity.UserDAO;
+import kr.ac.kku.cs.wp.nangkongmu.user.entity.UserDAOJdbcImpl; // 올바른 클래스를 import합니다.
+import kr.ac.kku.cs.wp.nangkongmu.user.entity.User;
+import kr.ac.kku.cs.wp.nangkongmu.user.entity.UserRole;
+import kr.ac.kku.cs.wp.nangkongmu.user.entity.Role;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.List;
+
+public class UserDAOImplTest {
+
+    private static final Logger logger = LogManager.getLogger(UserDAOJdbcImplTest.class);
+    private UserDAO userDao;
+
+    @BeforeEach
+    public void setUp() {
+        userDao = new UserDAOJdbcImpl(); // 클래스 이름을 UserDAOJdbcImpl로 수정합니다.
+    }
+
+    @Test
+    public void testGetUserById() {
+        String id = "kku_1001";
+        User user = userDao.getUserById(id);
+        
+        // 반환된 User 객체가 null이 아닌지 확인
+        assertNotNull(user, "User should not be null");
+
+        // User의 역할 리스트 가져오기
+        List<UserRole> urList = user.getUserRoles();
+        assertNotNull(urList, "User roles should not be null");
+
+        // 각 UserRole에 대해 id, name, role 로그 남기기
+        for (UserRole userRole : urList) {
+            User urUser = userRole.getUser();
+            Role role = userRole.getRole();
+            logger.debug("user id: {}, user name: {}, role name: {}", 
+                urUser.getId(), urUser.getName(), role.getRole());
+
+            // assertion으로 각 필드 값이 적절한지 확인
+            assertNotNull(urUser.getId(), "User ID should not be null");
+            assertNotNull(urUser.getName(), "User name should not be null");
+            assertNotNull(role.getRole(), "Role name should not be null");
+        }
+    }
+
+    @Test
+    public void testGetUsers() {
+        // 모든 유저 리스트를 가져오기
+        List<User> users = userDao.getUsers(null);
+        
+        // 반환된 User 리스트가 null이 아닌지 확인
+        assertNotNull(users, "Users list should not be null");
+        assertTrue(users.size() > 0, "Users list should not be empty");
+
+        // 각 User에 대해 역할 리스트를 가져오고, 로그 남기기
+        for (User user : users) {
+            List<UserRole> urList = user.getUserRoles();
+            assertNotNull(urList, "User roles should not be null");
+
+            for (UserRole userRole : urList) {
+                User urUser = userRole.getUser();
+                Role role = userRole.getRole();
+                logger.debug("user id: {}, user name: {}, role name: {}",
+                    urUser.getId(), urUser.getName(), role.getRole());
+
+                // assertion으로 각 필드 값이 적절한지 확인
+                assertNotNull(urUser.getId(), "User ID should not be null");
+                assertNotNull(urUser.getName(), "User name should not be null");
+                assertNotNull(role.getRole(), "Role name should not be null");
+            }
+        }
+    }
+}
+
