@@ -1,0 +1,13 @@
+package kr.ac.kku.cs.wp.nangkongmu.service;
+
+import kr.ac.kku.cs.wp.github.user.entity.User;
+
+import java.util.List;
+
+public interface UserService {
+    // 모든 사용자 정보를 가져오는 메서드
+    List<User> getAllUsers();
+
+    // 특정 사용자 ID로 사용자 정보를 가져오는 메서드
+    User getUserById(String id);
+}
