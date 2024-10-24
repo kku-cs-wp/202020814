@@ -1,5 +1,0 @@
-INDEX VERSION 1.4+C:\Users\gadin\OneDrive\바탕 화면\3학년 2학기\고급 웹 프로그래밍\middle_term-202020814\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
-2537521554.index
-1567051479.index
-681621079.index
-2200407556.index
