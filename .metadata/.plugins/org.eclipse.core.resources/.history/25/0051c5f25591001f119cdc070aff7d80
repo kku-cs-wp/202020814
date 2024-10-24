@@ -1,0 +1,26 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
+
+<html>
+<head>
+    <title>사용자 정보 Section 추가</title>
+    <script type="text/javascript" src="js/common.js"></script>
+</head>
+
+<body>
+    <!-- 로그인 또는 사용자 정보가 표시되는 영역 -->
+    <div id="auth-section">
+        <c:if test="${empty sessionScope.user}">
+            <button id="login-button" onclick="showLogin()">로그인</button>
+        </c:if>
+        
+        <c:if test="${not empty sessionScope.user}">
+            <div id="user-info" style="display: ${not empty sessionScope.user ? 'block' : 'none'};">
+                <span id="username" title="${sessionScope.user.userId}">${sessionScope.user.name}</span>
+                <button id="logout-button" onclick="logout()">로그아웃</button>
+            </div>
+        </c:if>
+    </div>
+</body>
+</html>
